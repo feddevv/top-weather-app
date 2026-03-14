@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Prata&display=swap');
+@import './styles/homePage.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: url('./assets/main-background-sky.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  font-family: 'Manrope', sans-serif;
+  color: #f8fbff;
+}

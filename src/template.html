@@ -3,7 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Weather App</title>
   </head>
-  <body></body>
+  <body>
+    <main class="weather-layout">
+      <div class="search-container">
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Enter the city"
+        />
+      </div>
+
+      <section class="weather-card" aria-label="Current weather">
+        <header class="weather-card-header">
+          <p class="weather-card-label">Current weather</p>
+          <p class="weather-card-date">Saturday, March 14</p>
+        </header>
+
+        <h1 class="weather-card-city">Lviv, Ukraine</h1>
+
+        <div class="weather-main">
+          <p class="weather-main-temp">18°</p>
+          <div class="weather-main-status">
+            <p class="weather-main-condition">Partly Cloudy</p>
+            <p class="weather-main-feels">Feels like 16°</p>
+          </div>
+        </div>
+
+        <div class="weather-divider" aria-hidden="true"></div>
+
+        <section class="weather-stats" aria-label="Weather details">
+          <article class="stat-item">
+            <p class="stat-item-label">Wind</p>
+            <p class="stat-item-value">12 km/h</p>
+          </article>
+          <article class="stat-item">
+            <p class="stat-item-label">Humidity</p>
+            <p class="stat-item-value">67%</p>
+          </article>
+          <article class="stat-item">
+            <p class="stat-item-label">Pressure</p>
+            <p class="stat-item-value">1018 hPa</p>
+          </article>
+        </section>
+      </section>
+    </main>
+  </body>
 </html>

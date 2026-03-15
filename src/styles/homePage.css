@@ -27,6 +27,31 @@
 
 .search-container {
   width: 50%;
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.search-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  background-color: #f2b544;
+  color: #0b2236;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn:hover {
+  background-color: #ffc55c;
+  transform: translateY(-1px);
 }
 
 #search {

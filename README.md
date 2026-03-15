@@ -1,91 +1,133 @@
-# webpack-template
+# Weather App (v1)
 
-A minimal Webpack 5 starter template with CSS support, HTML templating, and separate development/production configurations.
+The first version of a weather app built with vanilla JavaScript, a controller-based architecture, OpenWeather API integration, and a glassmorphism-inspired UI.
 
-## Features
+## Overview
 
-- **Webpack 5** bundler with ES module config files
-- **CSS** — `css-loader` + `style-loader` pipeline for importing CSS into JS
-- **HTML** — `html-webpack-plugin` generates the output HTML from a template
-- **Dev server** — live-reloading development server via `webpack-dev-server`
-- **Split config** — shared base config merged with environment-specific overrides via `webpack-merge`
-- **Clean output** — `dist/` is cleaned automatically on every build
+This app allows users to:
+
+- search current weather by city name;
+- automatically load weather data for London on first page load;
+- display core weather metrics (temperature, condition, humidity, wind, pressure);
+- show a loader while API requests are in progress.
+
+## Tech Stack
+
+- JavaScript (ES Modules, classes)
+- Webpack 5
+- HTML5 + CSS3
+- OpenWeather API
+- ESLint + Prettier
 
 ## Project Structure
 
-```
-webpack-template/
+```text
+top-weather-app/
 ├── src/
-│   ├── index.js        # Entry point
-│   ├── main.css        # Global styles
-│   └── template.html   # HTML template
-├── webpack.common.js   # Shared webpack config
-├── webpack.dev.js      # Development config
-├── webpack.prod.js     # Production config
+│   ├── api/
+│   │   └── OpenWeatherApi.js      # Handles HTTP requests to OpenWeather
+│   ├── controllers/
+│   │   ├── ApiController.js       # API proxy controller
+│   │   └── DOMController.js       # UI events, rendering, loader logic
+│   ├── data/
+│   │   └── domElements.js         # Centralized DOM selectors
+│   ├── styles/
+│   │   ├── homePage.css           # Main page styles
+│   │   └── utils.css              # Loader + utility classes
+│   ├── utils/
+│   │   └── hiddenToggle.js        # Helper functions to hide/show elements
+│   ├── assets/
+│   │   └── main-background-sky.jpg
+│   ├── index.js                   # Entry point
+│   ├── main.css                   # Font/style imports
+│   └── template.html              # HTML template
+├── webpack.common.js
+├── webpack.dev.js
+├── webpack.prod.js
+├── eslint.config.js
 └── package.json
 ```
 
-## Getting Started
+## Local Setup
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-
-### Installation
+### 1. Install dependencies
 
 ```bash
-git clone https://github.com/feddevv/webpack-template.git
-cd webpack-template
 npm install
 ```
 
-## Usage
-
-### Development
-
-Starts a dev server with hot reloading and source maps. The browser opens automatically.
+### 2. Start development mode
 
 ```bash
 npm run dev
 ```
 
-- Mode: `development`
-- Source maps: `eval-source-map`
-- Watches `src/template.html` for changes
+Webpack Dev Server opens the app in your browser automatically.
 
-### Production Build
-
-Bundles and minifies the app into the `dist/` directory.
+### 3. Build production bundle
 
 ```bash
 npm run build
 ```
 
-- Mode: `production`
-- Output: `dist/main.js` + `dist/index.html`
-- `dist/` is cleaned before each build
+Build output is generated in the dist directory.
 
-## Configuration
+## NPM Scripts
 
-| File                | Purpose                                                |
-| ------------------- | ------------------------------------------------------ |
-| `webpack.common.js` | Entry point, output path, CSS loader rule, HTML plugin |
-| `webpack.dev.js`    | Merges common + dev server, source maps                |
-| `webpack.prod.js`   | Merges common + production mode                        |
+- `npm run dev` - starts dev server (`webpack serve --open --config webpack.dev.js`)
+- `npm run build` - creates production build (`webpack --config webpack.prod.js`)
 
-## Dependencies
+## Data Flow
 
-All dependencies are `devDependencies` — there are no runtime dependencies.
+1. `src/index.js` creates instances of `DOMController` and `ApiController`.
+2. `DOMController.initEventListeners()` subscribes to:
+   - search button click;
+   - `window.load` event (default city: London).
+3. `ApiController.getCurrentWeather(city)` forwards the call to API layer.
+4. `OpenWeatherApi.getCurrentWeather(city)` sends a `fetch` request to OpenWeather.
+5. Returned data is normalized in `formData()`.
+6. `DOMController.renderCurrentWeather()` updates weather card content in the DOM.
 
-| Package               | Purpose                               |
-| --------------------- | ------------------------------------- |
-| `webpack`             | Core bundler                          |
-| `webpack-cli`         | CLI for running webpack               |
-| `webpack-dev-server`  | Development server                    |
-| `webpack-merge`       | Merges config objects                 |
-| `html-webpack-plugin` | Generates HTML output from a template |
-| `css-loader`          | Resolves `@import` and `url()` in CSS |
-| `style-loader`        | Injects CSS into the DOM at runtime   |
+## Weather Data Shape (v1)
+
+After normalization, the app works with an object in this format:
+
+```js
+{
+  ;(city,
+    country,
+    date,
+    currentTemp,
+    minTemp,
+    maxTemp,
+    feelsLike,
+    weatherMain,
+    weatherDescription,
+    humidity,
+    windSpeed,
+    pressure)
+}
+```
+
+## Security Note
+
+In v1, the OpenWeather API key is stored directly in code at `src/api/OpenWeatherApi.js`.
+For production use, move the key to environment variables and avoid committing secrets to the repository.
+
+## Current v1 Limitations
+
+- search is triggered only by button click (no Enter key handling);
+- errors are logged to console only (no user-facing UI messages);
+- no tests yet;
+- no UI localization.
+
+## v2 Ideas
+
+- Enter key support for search input;
+- user-friendly error messages in UI;
+- multi-day forecast;
+- unit switcher (C/F);
+- move API key to environment variables.
 
 ## License
 

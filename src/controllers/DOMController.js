@@ -7,6 +7,11 @@ export default class DOMController {
       const data = await getCurrentWeather(elements.searchField.value)
       this.renderCurrentWeather(data)
     })
+
+    window.addEventListener('load', async () => {
+      const data = await getCurrentWeather('London')
+      this.renderCurrentWeather(data)
+    })
   }
 
   renderCurrentWeather(data) {

@@ -23,6 +23,8 @@
   );
   box-shadow: 0 18px 44px rgba(1, 9, 15, 0.35);
   backdrop-filter: blur(4px);
+
+  position: relative;
 }
 
 .search-container {

@@ -1,16 +1,32 @@
 import { elements } from '../data/domElements.js'
+import { removeHidden, addHidden } from '../utils/hiddenToggle.js'
 
 export default class DOMController {
   initEventListeners(getCurrentWeather) {
     elements.searchButton.addEventListener('click', async (e) => {
-      if (elements.searchField.value.trim() === '') return
-      const data = await getCurrentWeather(elements.searchField.value)
-      this.renderCurrentWeather(data)
+      try {
+        if (elements.searchField.value.trim() === '') return
+        this.showLoad()
+
+        const data = await getCurrentWeather(elements.searchField.value)
+        this.renderCurrentWeather(data)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.hideLoad()
+      }
     })
 
     window.addEventListener('load', async () => {
-      const data = await getCurrentWeather('London')
-      this.renderCurrentWeather(data)
+      try {
+        this.showLoad()
+        const data = await getCurrentWeather('London')
+        this.renderCurrentWeather(data)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.hideLoad()
+      }
     })
   }
 
@@ -23,5 +39,13 @@ export default class DOMController {
     elements.weather.wind.textContent = `${data.windSpeed} km/h`
     elements.weather.humidity.textContent = `${data.humidity}%`
     elements.weather.pressure.textContent = `${data.pressure} hPa`
+  }
+
+  showLoad() {
+    removeHidden('.loader-wrapper')
+  }
+
+  hideLoad() {
+    addHidden('.loader-wrapper')
   }
 }

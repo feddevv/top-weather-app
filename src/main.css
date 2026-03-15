@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Prata&display=swap');
-@import './styles/homePage.css';
+@import url(./styles/homePage.css);
+@import url(./styles/utils.css);
 
 *,
 *::before,

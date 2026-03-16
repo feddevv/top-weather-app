@@ -12,5 +12,7 @@ export const elements = {
     wind: document.querySelector('.wind'),
     humidity: document.querySelector('.humidity'),
     pressure: document.querySelector('.pressure'),
+
+    unitsCheckBox: document.getElementById('convert'),
   },
 }

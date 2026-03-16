@@ -5,6 +5,7 @@ export const elements = {
   weather: {
     date: document.querySelector('.weather-card-date'),
     city: document.querySelector('.weather-card-city'),
+    icon: document.querySelector('.weather-card-icon'),
     mainTemp: document.querySelector('.weather-main-temp'),
     condition: document.querySelector('.weather-main-condition'),
     feelsLike: document.querySelector('.weather-main-feels'),

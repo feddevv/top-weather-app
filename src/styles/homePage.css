@@ -102,12 +102,22 @@
   color: rgba(231, 245, 255, 0.74);
 }
 
+.weather-card-headline {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.1rem;
+  gap: 0.9rem;
+}
+
 .weather-card-city {
   font-family: 'Prata', serif;
   font-size: 2.4rem;
   line-height: 1.16;
   font-weight: 400;
-  margin-bottom: 1.1rem;
+}
+
+.weather-card-icon {
+  width: 50px;
 }
 
 .weather-main {

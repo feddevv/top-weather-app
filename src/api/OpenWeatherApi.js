@@ -33,6 +33,7 @@ export default class OpenWeatherApi {
       feelsLike: Math.round(data.main.feels_like),
       weatherMain: data.weather[0].main,
       weatherDescription: data.weather[0].description,
+      weatherIcon: data.weather[0].icon,
 
       humidity: data.main.humidity,
       windSpeed: data.wind.speed,

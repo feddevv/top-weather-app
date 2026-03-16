@@ -1,5 +1,6 @@
 import { elements } from '../data/domElements.js'
 import { removeHidden, addHidden } from '../utils/hiddenToggle.js'
+import { icons } from '../data/icons.js'
 
 export default class DOMController {
   initEventListeners(getCurrentWeather) {
@@ -33,6 +34,7 @@ export default class DOMController {
   renderCurrentWeather(data) {
     elements.weather.date.textContent = data.date
     elements.weather.city.textContent = `${data.city}, ${data.country}`
+    elements.weather.icon.src = `./icons/${icons[data.weatherIcon]}`
     elements.weather.mainTemp.textContent = `${data.currentTemp}°`
     elements.weather.condition.textContent = data.weatherMain
     elements.weather.feelsLike.textContent = `Feels like ${data.feelsLike}°`

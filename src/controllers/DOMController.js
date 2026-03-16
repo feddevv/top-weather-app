@@ -54,7 +54,7 @@ export default class DOMController {
 
     elements.weather.mainTemp.textContent = `${checked ? celsiusToFahrenheit(data.currentTemp) : data.currentTemp}°`
 
-    elements.weather.condition.textContent = data.weatherMain
+    elements.weather.condition.textContent = data.weatherDescription
 
     elements.weather.feelsLike.textContent = `Feels like ${checked ? celsiusToFahrenheit(data.feelsLike) : data.feelsLike}°`
 

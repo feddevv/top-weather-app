@@ -139,6 +139,10 @@
   margin-bottom: 0.4rem;
 }
 
+.weather-main-condition::first-letter {
+  text-transform: capitalize;
+}
+
 .weather-main-feels {
   font-size: 0.95rem;
   color: rgba(231, 245, 255, 0.8);

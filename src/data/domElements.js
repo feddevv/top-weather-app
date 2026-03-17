@@ -7,6 +7,8 @@ export const elements = {
     city: document.querySelector('.weather-card-city'),
     icon: document.querySelector('.weather-card-icon'),
     mainTemp: document.querySelector('.weather-main-temp'),
+    minTemp: document.querySelector('.min-temp'),
+    maxTemp: document.querySelector('.max-temp'),
     condition: document.querySelector('.weather-main-condition'),
     feelsLike: document.querySelector('.weather-main-feels'),
     wind: document.querySelector('.wind'),

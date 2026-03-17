@@ -124,6 +124,34 @@
   gap: 1.2rem;
 }
 
+.weather-range {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.weather-range-item {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.weather-range-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 245, 255, 0.66);
+  margin-bottom: 0.35rem;
+}
+
+.weather-range-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f4fbff;
+}
+
 .weather-main-temp {
   font-size: 5.4rem;
   line-height: 1;

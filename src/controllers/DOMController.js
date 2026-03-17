@@ -72,7 +72,10 @@ export default class DOMController {
     elements.weather.city.textContent = `${data.city}, ${data.country}`
     elements.weather.icon.src = `./icons/${icons[data.weatherIcon]}`
 
+    // Temperature
     elements.weather.mainTemp.textContent = `${checked ? celsiusToFahrenheit(data.currentTemp) : data.currentTemp}°`
+    elements.weather.minTemp.textContent = `${checked ? celsiusToFahrenheit(data.minTemp) : data.minTemp}°`
+    elements.weather.maxTemp.textContent = `${checked ? celsiusToFahrenheit(data.maxTemp) : data.maxTemp}°`
 
     elements.weather.condition.textContent = data.weatherDescription
 
@@ -118,11 +121,15 @@ export default class DOMController {
 
   showFahrenheit() {
     const currentTemp = parseInt(elements.weather.mainTemp.textContent)
+    const minTemp = parseInt(elements.weather.minTemp.textContent)
+    const maxTemp = parseInt(elements.weather.maxTemp.textContent)
     const feelsLikeTemp = parseInt(
       elements.weather.feelsLike.textContent.split(' ')[2],
     )
 
     elements.weather.mainTemp.textContent = `${celsiusToFahrenheit(currentTemp)}°`
+    elements.weather.minTemp.textContent = `${celsiusToFahrenheit(minTemp)}°`
+    elements.weather.maxTemp.textContent = `${celsiusToFahrenheit(maxTemp)}°`
     elements.weather.feelsLike.textContent = `Feels like ${celsiusToFahrenheit(feelsLikeTemp)}°`
 
     document.querySelectorAll('.forecast-temp').forEach((el) => {
@@ -132,12 +139,16 @@ export default class DOMController {
 
   showCelsius() {
     const currentTemp = parseInt(elements.weather.mainTemp.textContent)
+    const minTemp = parseInt(elements.weather.minTemp.textContent)
+    const maxTemp = parseInt(elements.weather.maxTemp.textContent)
     const feelsLikeTemp = parseInt(
       elements.weather.feelsLike.textContent.split(' ')[2],
     )
 
     elements.weather.mainTemp.textContent = `${fahrenheitToCelsius(currentTemp)}°`
     elements.weather.feelsLike.textContent = `Feels like ${fahrenheitToCelsius(feelsLikeTemp)}°`
+    elements.weather.minTemp.textContent = `${fahrenheitToCelsius(minTemp)}°`
+    elements.weather.maxTemp.textContent = `${fahrenheitToCelsius(maxTemp)}°`
     document.querySelectorAll('.forecast-temp').forEach((el) => {
       el.textContent = `${fahrenheitToCelsius(parseInt(el.textContent))}°`
     })

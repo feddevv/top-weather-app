@@ -70,7 +70,7 @@ export default class DOMController {
       dateOption,
     )
     elements.weather.city.textContent = `${data.city}, ${data.country}`
-    elements.weather.icon.src = `./icons/${icons[data.weatherIcon]}`
+    elements.weather.icon.src = `/icons/${icons[data.weatherIcon]}`
 
     elements.weather.mainTemp.textContent = `${checked ? celsiusToFahrenheit(data.currentTemp) : data.currentTemp}°`
 

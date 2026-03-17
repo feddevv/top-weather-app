@@ -1,3 +1,4 @@
+import CopyPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'node:path'
 
@@ -23,6 +24,10 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/template.html',
+    }),
+
+    new CopyPlugin({
+      patterns: [{ from: 'public', to: '' }],
     }),
   ],
 }

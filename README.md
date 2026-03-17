@@ -1,54 +1,61 @@
-# Weather App (v1)
+# Weather App
 
-The first version of a weather app built with vanilla JavaScript, a controller-based architecture, OpenWeather API integration, and a glassmorphism-inspired UI.
+A vanilla JavaScript weather app with a controller-based architecture, OpenWeather integration, and a glassmorphism UI.
 
-## Overview
+## Features
 
-This app allows users to:
-
-- search current weather by city name;
-- automatically load weather data for London on first page load;
-- display core weather metrics (temperature, condition, humidity, wind, pressure);
-- show a loader while API requests are in progress.
+- Search weather by city name.
+- Load default data for London on page load.
+- Show current weather details: temperature, condition, feels like, wind, humidity, and pressure.
+- Show 24-hour forecast in 3-hour steps (8 cards).
+- Click any forecast card to update the main weather panel with that time slot.
+- Toggle units between Celsius and Fahrenheit for both current and forecast temperatures.
+- Horizontal forecast scrolling with mouse wheel.
+- Display loading overlay while requests are in progress.
 
 ## Tech Stack
 
-- JavaScript (ES Modules, classes)
+- JavaScript (ES modules, classes)
 - Webpack 5
-- HTML5 + CSS3
-- OpenWeather API
+- HTML + CSS
+- OpenWeather API (`/weather` and `/forecast` endpoints)
 - ESLint + Prettier
 
 ## Project Structure
 
 ```text
 top-weather-app/
+├── public/
+│   └── icons/                     # Static weather icons copied to build output
 ├── src/
 │   ├── api/
-│   │   └── OpenWeatherApi.js      # Handles HTTP requests to OpenWeather
+│   │   └── OpenWeatherApi.js      # API calls + response normalization
 │   ├── controllers/
-│   │   ├── ApiController.js       # API proxy controller
-│   │   └── DOMController.js       # UI events, rendering, loader logic
+│   │   ├── ApiController.js       # Thin API proxy layer
+│   │   └── DOMController.js       # Event listeners, rendering, unit toggle, loaders
 │   ├── data/
-│   │   └── domElements.js         # Centralized DOM selectors
+│   │   ├── domElements.js         # Centralized DOM element references
+│   │   └── icons.js               # OpenWeather icon-code to local icon map
 │   ├── styles/
-│   │   ├── homePage.css           # Main page styles
+│   │   ├── homePage.css           # Main page and forecast styles
 │   │   └── utils.css              # Loader + utility classes
 │   ├── utils/
-│   │   └── hiddenToggle.js        # Helper functions to hide/show elements
+│   │   ├── hiddenToggle.js        # Show/hide helpers
+│   │   └── tempConverting.js      # C<->F conversion helpers
 │   ├── assets/
 │   │   └── main-background-sky.jpg
-│   ├── index.js                   # Entry point
-│   ├── main.css                   # Font/style imports
-│   └── template.html              # HTML template
+│   ├── index.js                   # App composition root
+│   ├── main.css                   # Global imports
+│   └── template.html              # Main HTML template
 ├── webpack.common.js
 ├── webpack.dev.js
 ├── webpack.prod.js
 ├── eslint.config.js
-└── package.json
+├── package.json
+└── README.md
 ```
 
-## Local Setup
+## Getting Started
 
 ### 1. Install dependencies
 
@@ -56,78 +63,94 @@ top-weather-app/
 npm install
 ```
 
-### 2. Start development mode
+### 2. Start development server
 
 ```bash
 npm run dev
 ```
 
-Webpack Dev Server opens the app in your browser automatically.
+This starts Webpack Dev Server and opens the app in your browser.
 
-### 3. Build production bundle
+### 3. Build for production
 
 ```bash
 npm run build
 ```
 
-Build output is generated in the dist directory.
+Production files are generated in `dist/`.
 
-## NPM Scripts
+### 4. Deploy to GitHub Pages
 
-- `npm run dev` - starts dev server (`webpack serve --open --config webpack.dev.js`)
-- `npm run build` - creates production build (`webpack --config webpack.prod.js`)
+```bash
+npm run deploy
+```
 
-## Data Flow
+This pushes the `dist/` subtree to the `gh-pages` branch.
 
-1. `src/index.js` creates instances of `DOMController` and `ApiController`.
-2. `DOMController.initEventListeners()` subscribes to:
-   - search button click;
-   - `window.load` event (default city: London).
-3. `ApiController.getCurrentWeather(city)` forwards the call to API layer.
-4. `OpenWeatherApi.getCurrentWeather(city)` sends a `fetch` request to OpenWeather.
-5. Returned data is normalized in `formData()`.
-6. `DOMController.renderCurrentWeather()` updates weather card content in the DOM.
+## Available Scripts
 
-## Weather Data Shape (v1)
+- `npm run dev` - run development server (`webpack serve --open --config webpack.dev.js`)
+- `npm run build` - build production bundle (`webpack --config webpack.prod.js`)
+- `npm run deploy` - deploy `dist/` to GitHub Pages (`git subtree push --prefix dist origin gh-pages`)
 
-After normalization, the app works with an object in this format:
+## Application Flow
+
+1. `src/index.js` wires `DOMController` with `ApiController`.
+2. `DOMController.initEventListeners()` handles:
+
+- search button click;
+- initial load event;
+- unit switch change;
+- forecast wheel scrolling.
+
+3. API layer requests:
+
+- current weather via `/data/2.5/weather`;
+- 5-day forecast via `/data/2.5/forecast`.
+
+4. Responses are normalized in `OpenWeatherApi` methods:
+
+- `formCurrentData()`
+- `formForecastData()`
+
+5. UI rendering:
+
+- `renderCurrentWeather()` updates the main card;
+- `renderForecast()` draws 8 forecast cards (next 24 hours).
+
+## Normalized Weather Object Shape
+
+Both current and forecast rendering use the same normalized object format:
 
 ```js
 {
-  ;(city,
-    country,
-    date,
-    currentTemp,
-    minTemp,
-    maxTemp,
-    feelsLike,
-    weatherMain,
-    weatherDescription,
-    humidity,
-    windSpeed,
-    pressure)
+  city: 'London',
+  country: 'GB',
+  date: Date,
+  currentTemp: 12,
+  minTemp: 10.3,
+  maxTemp: 13.6,
+  feelsLike: 9,
+  weatherMain: 'Clouds',
+  weatherDescription: 'broken clouds',
+  weatherIcon: '04d',
+  humidity: 74,
+  windSpeed: 4.1,
+  pressure: 1015,
 }
 ```
 
+## Known Limitations
+
+- Search currently triggers only by click (no Enter key handler).
+- API errors are logged to console only (no UI error state yet).
+- API key is stored in source code.
+- No automated tests yet.
+
 ## Security Note
 
-In v1, the OpenWeather API key is stored directly in code at `src/api/OpenWeatherApi.js`.
-For production use, move the key to environment variables and avoid committing secrets to the repository.
-
-## Current v1 Limitations
-
-- search is triggered only by button click (no Enter key handling);
-- errors are logged to console only (no user-facing UI messages);
-- no tests yet;
-- no UI localization.
-
-## v2 Ideas
-
-- Enter key support for search input;
-- user-friendly error messages in UI;
-- multi-day forecast;
-- unit switcher (C/F);
-- move API key to environment variables.
+`src/api/OpenWeatherApi.js` currently contains a hardcoded API key.
+For real deployment, move it to environment variables and never commit secrets.
 
 ## License
 

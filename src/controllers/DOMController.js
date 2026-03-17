@@ -70,7 +70,7 @@ export default class DOMController {
       dateOption,
     )
     elements.weather.city.textContent = `${data.city}, ${data.country}`
-    elements.weather.icon.src = `icons/${icons[data.weatherIcon]}`
+    elements.weather.icon.src = `./icons/${icons[data.weatherIcon]}`
 
     elements.weather.mainTemp.textContent = `${checked ? celsiusToFahrenheit(data.currentTemp) : data.currentTemp}°`
 
@@ -91,7 +91,7 @@ export default class DOMController {
       item.className = `forecast-item ${i === 0 && 'active'}`
       item.innerHTML = `
           <p class="forecast-time">${data[i].date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-          <img src="icons/${icons[data[i].weatherIcon]}" class="forecast-icon" alt="Cloudy" />
+          <img src="./icons/${icons[data[i].weatherIcon]}" class="forecast-icon" alt="Cloudy" />
           <p class="forecast-temp">${checked ? celsiusToFahrenheit(data[i].currentTemp) : data[i].currentTemp}°</p>
           <p class="forecast-condition">${data[i].weatherDescription}</p>
       `

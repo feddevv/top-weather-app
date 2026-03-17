@@ -15,6 +15,8 @@ export const elements = {
 
     unitsCheckBox: document.getElementById('convert'),
 
+    // Forecast
     forecastList: document.querySelector('.forecast-list'),
+    forecastMainTemp: document.querySelectorAll('.forecast-temp'),
   },
 }

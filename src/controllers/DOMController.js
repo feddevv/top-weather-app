@@ -84,14 +84,15 @@ export default class DOMController {
   }
 
   renderForecast(data) {
+    const checked = elements.weather.unitsCheckBox.checked
     elements.weather.forecastList.innerHTML = ''
     for (let i = 0; i < 8; i++) {
       const item = document.createElement('article')
-      item.className = 'forecast-item'
+      item.className = `forecast-item ${i === 0 && 'active'}`
       item.innerHTML = `
           <p class="forecast-time">${data[i].date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
           <img src="icons/${icons[data[i].weatherIcon]}" class="forecast-icon" alt="Cloudy" />
-          <p class="forecast-temp">${data[i].currentTemp}°</p>
+          <p class="forecast-temp">${checked ? celsiusToFahrenheit(data[i].currentTemp) : data[i].currentTemp}°</p>
           <p class="forecast-condition">${data[i].weatherDescription}</p>
       `
 
@@ -123,6 +124,10 @@ export default class DOMController {
 
     elements.weather.mainTemp.textContent = `${celsiusToFahrenheit(currentTemp)}°`
     elements.weather.feelsLike.textContent = `Feels like ${celsiusToFahrenheit(feelsLikeTemp)}°`
+
+    document.querySelectorAll('.forecast-temp').forEach((el) => {
+      el.textContent = `${celsiusToFahrenheit(parseInt(el.textContent))}°`
+    })
   }
 
   showCelsius() {
@@ -133,6 +138,9 @@ export default class DOMController {
 
     elements.weather.mainTemp.textContent = `${fahrenheitToCelsius(currentTemp)}°`
     elements.weather.feelsLike.textContent = `Feels like ${fahrenheitToCelsius(feelsLikeTemp)}°`
+    document.querySelectorAll('.forecast-temp').forEach((el) => {
+      el.textContent = `${fahrenheitToCelsius(parseInt(el.textContent))}°`
+    })
   }
 
   showLoad() {

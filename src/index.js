@@ -6,4 +6,4 @@ import ApiController from './controllers/ApiController.js'
 const DomController = new DOMController()
 const api = new ApiController(new OpenWeatherApi())
 
-DomController.initEventListeners(api.getCurrentWeather)
+DomController.initEventListeners(api.getCurrentWeather, api.getForecast)

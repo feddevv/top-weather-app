@@ -11,18 +11,27 @@ export default class OpenWeatherApi {
     }
 
     const data = await response.json()
-    console.log(data)
 
-    return this.formData(data)
+    return this.formCurrentData(data)
   }
 
-  formData(data) {
-    const options = {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
+  getForecast = async (city) => {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${this.#API_KEY}`,
+    )
+
+    if (!response.ok) {
+      throw new Error(`The error occurred! Status code: ${response.status}`)
     }
-    const currentDate = new Date().toLocaleDateString('en-US', options)
+
+    const data = await response.json()
+    console.log(data)
+
+    return this.formForecastData(data)
+  }
+
+  formCurrentData(data) {
+    const currentDate = new Date()
     const formed = {
       city: data.name,
       country: data.sys.country,
@@ -39,7 +48,33 @@ export default class OpenWeatherApi {
       windSpeed: data.wind.speed,
       pressure: data.main.pressure,
     }
-    console.log(formed)
     return formed
+  }
+
+  formForecastData(data) {
+    const forecast = []
+
+    data.list.forEach((el) => {
+      const formed = {
+        city: data.city.name,
+        country: data.city.country,
+        date: new Date(el.dt_txt),
+        currentTemp: Math.round(el.main.temp),
+        minTemp: el.main.temp_min,
+        maxTemp: el.main.temp_max,
+        feelsLike: Math.round(el.main.feels_like),
+        weatherMain: el.weather[0].main,
+        weatherDescription: el.weather[0].description,
+        weatherIcon: el.weather[0].icon,
+
+        humidity: el.main.humidity,
+        windSpeed: el.wind.speed,
+        pressure: el.main.pressure,
+      }
+
+      forecast.push(formed)
+    })
+
+    return forecast
   }
 }

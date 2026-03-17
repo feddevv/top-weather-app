@@ -6,4 +6,8 @@ export default class ApiController {
   getCurrentWeather = async (city) => {
     return await this.api.getCurrentWeather(city)
   }
+
+  getForecast = async (city) => {
+    return await this.api.getForecast(city)
+  }
 }

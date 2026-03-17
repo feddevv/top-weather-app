@@ -14,5 +14,7 @@ export const elements = {
     pressure: document.querySelector('.pressure'),
 
     unitsCheckBox: document.getElementById('convert'),
+
+    forecastList: document.querySelector('.forecast-list'),
   },
 }

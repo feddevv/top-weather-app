@@ -44,10 +44,10 @@ export default class DOMController {
     elements.weather.unitsCheckBox.addEventListener('change', (e) => {
       if (e.target.checked) {
         this.units = 'fahrenheit'
-        this.showFahrenheit()
+        this.convertTo('fahrenheit')
       } else {
         this.units = 'celsius'
-        this.showCelsius()
+        this.convertTo('celsius')
       }
     })
 
@@ -91,7 +91,7 @@ export default class DOMController {
     elements.weather.forecastList.innerHTML = ''
     for (let i = 0; i < 8; i++) {
       const item = document.createElement('article')
-      item.className = `forecast-item ${i === 0 && 'active'}`
+      item.className = 'forecast-item'
       item.innerHTML = `
           <p class="forecast-time">${data[i].date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
           <img src="./icons/${icons[data[i].weatherIcon]}" class="forecast-icon" alt="Cloudy" />
@@ -119,7 +119,8 @@ export default class DOMController {
     }
   }
 
-  showFahrenheit() {
+  convertTo(units) {
+    const func = units === 'celsius' ? fahrenheitToCelsius : celsiusToFahrenheit
     const currentTemp = parseInt(elements.weather.mainTemp.textContent)
     const minTemp = parseInt(elements.weather.minTemp.textContent)
     const maxTemp = parseInt(elements.weather.maxTemp.textContent)
@@ -127,30 +128,13 @@ export default class DOMController {
       elements.weather.feelsLike.textContent.split(' ')[2],
     )
 
-    elements.weather.mainTemp.textContent = `${celsiusToFahrenheit(currentTemp)}°`
-    elements.weather.minTemp.textContent = `${celsiusToFahrenheit(minTemp)}°`
-    elements.weather.maxTemp.textContent = `${celsiusToFahrenheit(maxTemp)}°`
-    elements.weather.feelsLike.textContent = `Feels like ${celsiusToFahrenheit(feelsLikeTemp)}°`
+    elements.weather.mainTemp.textContent = `${func(currentTemp)}°`
+    elements.weather.minTemp.textContent = `${func(minTemp)}°`
+    elements.weather.maxTemp.textContent = `${func(maxTemp)}°`
+    elements.weather.feelsLike.textContent = `Feels like ${func(feelsLikeTemp)}°`
 
     document.querySelectorAll('.forecast-temp').forEach((el) => {
-      el.textContent = `${celsiusToFahrenheit(parseInt(el.textContent))}°`
-    })
-  }
-
-  showCelsius() {
-    const currentTemp = parseInt(elements.weather.mainTemp.textContent)
-    const minTemp = parseInt(elements.weather.minTemp.textContent)
-    const maxTemp = parseInt(elements.weather.maxTemp.textContent)
-    const feelsLikeTemp = parseInt(
-      elements.weather.feelsLike.textContent.split(' ')[2],
-    )
-
-    elements.weather.mainTemp.textContent = `${fahrenheitToCelsius(currentTemp)}°`
-    elements.weather.feelsLike.textContent = `Feels like ${fahrenheitToCelsius(feelsLikeTemp)}°`
-    elements.weather.minTemp.textContent = `${fahrenheitToCelsius(minTemp)}°`
-    elements.weather.maxTemp.textContent = `${fahrenheitToCelsius(maxTemp)}°`
-    document.querySelectorAll('.forecast-temp').forEach((el) => {
-      el.textContent = `${fahrenheitToCelsius(parseInt(el.textContent))}°`
+      el.textContent = `${func(parseInt(el.textContent))}°`
     })
   }
 

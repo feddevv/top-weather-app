@@ -25,7 +25,6 @@ export default class OpenWeatherApi {
     }
 
     const data = await response.json()
-    console.log(data)
 
     return this.formForecastData(data)
   }
